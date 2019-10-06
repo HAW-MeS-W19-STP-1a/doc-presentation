@@ -1,0 +1,3 @@
+* Repo für alle Präsentationen
+- Im Ordner ~example~ ist ein Beispiel-Beamer-Pojekt
+- Im Ordner ~zwischenbericht~ ist das Beamer-Projekt für die Präsentation am 15.10.2019
