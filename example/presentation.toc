@@ -1,0 +1,16 @@
+\babel@toc {german}{}
+\beamer@sectionintoc {1}{Einleitung}{2}{0}{1}
+\beamer@sectionintoc {2}{Grundlagen}{7}{0}{2}
+\beamer@subsectionintoc {2}{1}{Zedboard}{8}{0}{2}
+\beamer@subsectionintoc {2}{2}{Klassifizierung}{9}{0}{2}
+\beamer@sectionintoc {3}{Implementierung}{10}{0}{3}
+\beamer@subsectionintoc {3}{1}{Touchscreen-Anschlussboard}{11}{0}{3}
+\beamer@subsectionintoc {3}{2}{Programable Logic}{12}{0}{3}
+\beamer@subsectionintoc {3}{3}{Processing System}{14}{0}{3}
+\beamer@subsectionintoc {3}{4}{Klassifizierung}{15}{0}{3}
+\beamer@sectionintoc {4}{Feldtest}{19}{0}{4}
+\beamer@subsectionintoc {4}{1}{Durchf\"uhrung}{20}{0}{4}
+\beamer@subsectionintoc {4}{2}{Ergebnisse}{21}{0}{4}
+\beamer@sectionintoc {5}{Fazit}{23}{0}{5}
+\beamer@subsectionintoc {5}{1}{Bewertung des Verfahrens}{24}{0}{5}
+\beamer@subsectionintoc {5}{2}{Ausblick}{25}{0}{5}

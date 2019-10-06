@@ -1,0 +1,35 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[AVNET()]{zedboard_getting_started}
+AVNET.
+\newblock Zedboard getting started guide.
+\newblock URL
+  \url{http://zedboard.org/sites/default/files/documentations/GS-AES-Z7EV-7Z020-G-V7-1.pdf}.
+\newblock Zugriff: 12.01.2019.
+
+\bibitem[Jones et~al.(2001--)Jones, Oliphant, Peterson, et~al.]{scipy}
+Eric Jones, Travis Oliphant, Pearu Peterson, et~al.
+\newblock {SciPy}: Open source scientific tools for {Python}, 2001--.
+\newblock URL \url{http://www.scipy.org/}.
+\newblock Zugriff: 19.04.2019.
+
+\bibitem[Morawiec()]{sklearn_porter}
+Darius Morawiec.
+\newblock sklearn-porter -- transpile trained scikit-learn estimators to c,
+  java, javascript and others.
+\newblock URL \url{https://github.com/nok/sklearn-porter}.
+\newblock Zugriff: 20.04.2019.
+
+\bibitem[Yim()]{kaggle_supervised}
+Annie Yim.
+\newblock Essential classification algorithms with explanation.
+\newblock URL
+  \url{https://www.kaggle.com/anniepyim/essential-classification-algorithms-explained}.
+\newblock Zugriff: 17.03.2019.
+
+\end{thebibliography}

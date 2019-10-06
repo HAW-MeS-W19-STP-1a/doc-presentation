@@ -1,0 +1,860 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+% 
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+% 
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+% ----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+% ----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+  % The Beamer class comes with a number of default slide themes
+  % which change the colors and layouts of slides. Below this is a list
+  % of all the themes, uncomment each in turn to see what they look like.
+
+  % \usetheme{default}
+  % \usetheme{AnnArbor}
+  % \usetheme{Antibes}
+  % \usetheme{Bergen}
+  % \usetheme{Berkeley}
+  % \usetheme{Berlin}
+  % \usetheme{Boadilla}
+  % \usetheme{CambridgeUS}
+  % \usetheme{Copenhagen}
+  % \usetheme{Darmstadt}
+  % \usetheme{Dresden}
+  % \usetheme{Frankfurt}
+   \usetheme{Goettingen}
+  % \usetheme{Hannover}
+  % \usetheme{Ilmenau}
+  % \usetheme{JuanLesPins}
+  % \usetheme{Luebeck}
+  % \usetheme{Madrid}
+  % \usetheme{Malmoe}
+  % \usetheme{Marburg}
+  % \usetheme{Montpellier}
+  % \usetheme{PaloAlto}
+  % \usetheme{Pittsburgh}
+  % \usetheme{Rochester}
+  % \usetheme{Singapore}
+  % \usetheme{Szeged}
+  % \usetheme{Warsaw}
+
+  % As well as themes, the Beamer class has a number of color themes
+  % for any slide theme. Uncomment each of these in turn to see how it
+  % changes the colors of your current slide theme.
+
+  % \usecolortheme{albatross}
+  % \usecolortheme{beaver}
+  % \usecolortheme{beetle}
+  % \usecolortheme{crane}
+  % \usecolortheme{dolphin}
+  % \usecolortheme{dove}
+  % \usecolortheme{fly}
+  % \usecolortheme{lily}
+  % \usecolortheme{orchid}
+  % \usecolortheme{rose}
+  % \usecolortheme{seagull}
+  % \usecolortheme{seahorse}
+  % \usecolortheme{whale}
+  % \usecolortheme{wolverine}
+
+  % \setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+   \setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+  % \setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage[german]{babel} % Required to compile in Windows
+\usepackage[latin1]{inputenc}
+\usepackage{caption}
+\usepackage{subcaption}
+%\usepackage{physics}
+\usepackage{mathtools}
+\usepackage{natbib}
+\usepackage[T1]{fontenc}
+
+
+\AtBeginSection[]{
+  \begin{frame}
+    \vfill
+    \centering
+    \begin{beamercolorbox}[sep = 8pt, center, shadow = true, rounded = true]{title}
+      \usebeamerfont{title}\insertsectionhead\par%
+    \end{beamercolorbox}
+    \vfill
+  \end{frame}
+}
+
+% ----------------------------------------------------------------------------------------
+%	TITLE PAGE
+% ----------------------------------------------------------------------------------------
+
+\title[]{Realisation einer FPGA-basierten psychometrischen Authentifizierung mittels Touchscreen} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Erik  Raik Engelhardt} % Your name
+\institute[HAW] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+  Hochschule für angewandte Wissenschaften -- Hamburg \\ % Your institution for the title page
+  \medskip
+  \textit{erik.engelhardt@haw-hamburg.de} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+  \titlepage % Print the title page as the first slide
+\end{frame}
+
+\section{Einleitung}
+\begin{frame}
+  \frametitle{Ziel dieser Arbeit}
+  \emph{Kann man einen Nutzer anhand des Eingabeverhaltens an einem Touchscreen erkennen?}
+\end{frame}
+\begin{frame}
+  \frametitle{Motivation}
+  \begin{itemize}
+  \item Eine Pin oder ein Passwort kann leicht ausspioniert und kopiert werden
+  \item Ein biometrisches Merkmal kann kaum bis gar nicht ersetzt werden
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Ziel dieser Arbeit}
+  \emph{Kann man einen Nutzer anhand des Eingabeverhaltens an einem Touchscreen erkennen?}
+  \begin{itemize}
+  \item Eingabeverhalten bei der Eingabe eines Pin-Codes auf einem Touchscreen
+    \begin{itemize}
+    \item Einbeziehung der Position, des Druck und des Zeitverhalten
+    \end{itemize}
+  \item Evaluierung verschiedener Klassifizierungsalgorithmen
+  \item Implementierung auf einem FPGA
+  \item Testen der Implementierung in einem Feldtest
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  %\frametitle{Gliederung} % Table of contents slide, comment this block out to remove it
+  \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+% ----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+% ----------------------------------------------------------------------------------------
+% ----------------------------------------------------------------------------------------
+%	ERIK ENGELHARDT:
+% ----------------------------------------------------------------------------------------
+
+
+% \begin{frame}
+%   \frametitle{Vor- und Nachteile einer klassischen Pin-Eingabe}
+%   Vorteile:
+%   \begin{itemize}
+%   \item Leicht zu implementieren
+%   \item Leicht zu ersetzten
+%   \item Leicht zu merken
+%   \end{itemize}
+%   \pause{}
+%   \hbox{}
+  
+%   Nachteile:
+%   \begin{itemize}
+%   \item Anfällig für \glqq{}Shoulder Surfing\grqq{}~[\cite{Eiband2018}]
+%   \item Nur ein kleiner Teil der zur Verfügung stehenden Informationen werden verwendet
+%   \end{itemize}
+
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Vor- und Nachteile einer biometrischen Authentifizierung}
+%   Vorteile:
+%   \begin{itemize}
+%   \item Nutzer muss sich keine Informationen Merken
+%   \item Kopieren ist zwar möglich aber mit mehr Aufwand verbunden~[\cite{Cao2016}]
+%   \end{itemize}
+%   \pause{}
+%   \hbox{}
+%   Nachteile:
+%   \begin{itemize}
+%   \item Sehr schwer zu ersetzen
+%   \item Aufwendig zu implementieren
+%   \end{itemize}
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Vor- und Nachteile einer psychometrischen Authentifizierung}
+%   Vorteile:
+%   \begin{itemize}
+%   \item Leichter zu ersetzen als ein biometrisches Merkmal
+%   \item Schwerer zu kopieren als eine klassische Pin
+%   \item Leichter zu implementieren als eine biometrische Authentifizierung
+%   \end{itemize}
+%   \pause{}
+%   \hbox{}
+%   Nachteile:
+%   \begin{itemize}
+%   \item Nutzer muss sich zusätzlich merken \emph{wie} er seine Pin eingibt
+%   \item Leichter zu kopieren als eine biometrische Authentifizierung
+%   \end{itemize}
+% \end{frame}
+
+% \subsection{Einordnung der Arbeit}
+% \begin{frame}
+%   \frametitle{Vorangegangene Arbeiten}
+%   Es existieren zahlreiche Arbeiten, welche sich mit dem Tippverhalten als Merkmal für eine Authentifizierung beschäftigen.
+%   \begin{itemize}
+%   \item Tippverhalten bei Passworteingabe an Tastaturen mit Genauigkeit von 92.14\%~[\cite{Monrose2000}]    
+%   \item Tippverhalten an Tastaturen mit Equal Error Rate (ERR) von 1.8\%~[\cite{Bhattacharyya2009}]
+%   \item Tippverhalten bei Eingabe eines Passwortes an auf einem Smartphone mit EER von 13.6\%~[\cite{Kambourakis2014}]
+%   \end{itemize}
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Ziel dieser Arbeit}
+%   \begin{itemize}
+%   \item Verifizierung vorangegangener Ergebnisse    
+%   \item Implementierung auf dedizierter Hardware
+%   \item Untersuchung von verschiedenen Klassifizierungsverfahren zum Bewerten des Eingabeverhaltens
+%   \end{itemize}
+% \end{frame}
+
+\section{Grundlagen}
+% \subsection{Touchscreens}
+% \begin{frame}
+%   \frametitle{Aufbau von Resistiven Touchscreens}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/Overlay/diagram05-resistive-large.jpg}
+%   \caption{Lagen eines resistiven Touchoverlays~[\cite{canvys}]}\label{fig:resistiv_lagen}
+%   \begin{itemize}
+%   \item ITO $\ldots$ Indium Tin Oxide (deutsch Indiumzinnoxid)
+%   \end{itemize}
+% \end{figure}
+% \end{frame}
+
+
+% \begin{frame}
+%   \frametitle{Funktionsweise eines resistiven Touchscreens im 4-Draht-Anschluss}
+%   \begin{itemize}
+%   \item Linearer Spannungsverlauf auf vorderer oder hinterer Lage
+%   \item Abgriff der Messspannung von der jeweils anderen Lage
+%   \end{itemize}
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width=0.5\textwidth]{Bilder/Overlay/resistive_schalt.png}
+%     \caption{Schaltbild: 4-Draht Anschluss eines resistiven Touchscreens~[\cite{hantouchusa}]}\label{fig:resistiv_4wire_schalt}
+%   \end{figure}
+% \end{frame}
+\subsection{Zedboard}
+\begin{frame}
+  \frametitle{Grundsätzlicher Aufbau}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.6\textheight]{Bilder/zedboard/zedboard_hardware_blockdiagramm.png}
+    \caption{Zedboard Komponentenübersicht~[\cite{zedboard_getting_started}]}\label{fig:zedboard_peri}
+  \end{figure}
+\end{frame}
+
+\subsection{Klassifizierung}
+% \begin{frame}
+%   \frametitle{Supervised Machine Learning}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/classification/Supervised_ML}
+%   \caption{Allgemeiner Ablauf des \emph{Supervised Machine Learnings}~[\cite{kaggle_supervised}]}\label{fig:super_ml}
+%   \begin{enumerate}
+%   \item Trainieren des Modells mit Eingangsdaten und gewünschten Ergebnissen
+%   \item Vorhersagen von Ergebnissen für Eingangsdaten unbekannten Ursprungs
+%   \end{enumerate}
+% \end{figure}
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Vergleich verschiedener Klassifikatoren}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{Bilder/classification/uebersicht}
+%   \caption{Verschiedene Klassifizierungsalgorithmen im Vergleich. Klassifizierung von drei künstlichen Datensätzen mit jeweils zwei Klassen (Rot und Blau). Training der Modelle mit 60\% der Datenpunkte (Kreise), Test mit 40\% der Datenpunkte (Dreiecke). Mittlere Genauigkeit in der unteren rechten Ecke. Basierend auf~[\cite{scikit_learn_classifier_comparision}].}\label{fig:classifier_comp}
+% \end{figure}
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Support Vector Machine}
+  \begin{itemize}
+  \item Trennen der Datensätzen durch Hyperebene
+  \item Maximieren des Abstands der Datenpunkte zur Hyperebene
+  \end{itemize}
+  \begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{Bilder/classification/SVM_1}
+  \caption{Beispiele für Hyperebenen einer SVMs~[\cite{kaggle_supervised}]}\label{fig:clas_svm}
+\end{figure}
+
+\end{frame}
+\section{Implementierung}
+% \begin{frame}
+%   \frametitle{Systemaufbau}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{Bilder/Konzept/System_Grob_Block.png}
+%   \caption{Grundsätzlicher Aufbau des Systems mit Zedboard, Touchscreen, Display und PC}\label{fig:system_grob_block}
+% \end{figure}
+% \end{frame}
+\subsection{Touchscreen-Anschlussboard}
+\begin{frame}
+  \frametitle{Touchscreen-Anschlussboard}
+  \begin{itemize}
+  \item Erkennen und Melden einer Berührung
+  \item Messen der Berührungsposition
+  \item Weiterleitung der Daten an die PL des Zedboards
+  \end{itemize}
+  \begin{figure}
+  \centering
+  \includegraphics[width=0.25\textwidth]{Bilder/platine_layout_verbessert.png}
+  \caption{Platinenlayout für das Touchscreen-Anschlussboard. Obere Lage in Rot, untere in Blau. Verbindungen der Lagen in Grün.}\label{fig:layoutverbessert}
+\end{figure}
+\end{frame}
+\subsection{Programable Logic}
+\begin{frame}
+  \frametitle{Touchscreen-IP-Core}
+  \begin{itemize}
+  \item Auslesen der Positionsdaten
+  \item Erfassen von Timingdaten
+  \item Bereitstellung dieser Daten an das PS
+  \end{itemize}
+  \begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{Bilder/impl/Touchsystem_Uebersicht}
+  \caption{Grundsätzlicher Aufbau des Touchsystems}\label{fig:touch_uebersicht}
+\end{figure}
+\end{frame}
+\begin{frame}
+  \frametitle{HDMI-IP-Core}
+  \begin{itemize}
+  \item Generierung der Bild- und Timingdaten für das HDMI-Display
+  \item Weiterleitung dieser Daten an den HDMI-Transceiver
+  \item Darstellung von Inhalten aufgrund von Anweisungen aus dem PS
+  \end{itemize}
+  
+  \begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{Bilder/impl/Display_Uebersicht.png}
+  \caption{Grundsätzlicher Aufbau des Display Systems}\label{fig:Display_Uebersicht}
+\end{figure}
+\end{frame}
+\subsection{Processing System}
+\begin{frame}
+  \frametitle{Aufgaben des Processing Systems}
+  \begin{itemize}
+  \item Steuerung der Bildinhalte und damit die Kommunikation mit dem HDMI-IP-Core
+  \item Auslesen der Messdaten vom Touch-IP-Core
+  \item Filtern und Transformieren der Messdaten
+  \item Speichern der Messdaten auf einer SD-Karte
+  \item Ausführen des Authentifikationsalgorithmus
+  \item Menüführung über das OLED-Display und die Taster des Zedboards
+  \end{itemize}
+\end{frame}
+\subsection{Klassifizierung}
+\begin{frame}
+  \frametitle{Datenerhebung}
+  \begin{itemize}
+  \item Erfassung des Eingabeverhaltens von 16 Personen für 3 verschiedene Pin-Codes
+  \item Insgesamt 948 Eingaben über 11 Tage erfasst
+  \item Testpersonen wurden über betrachtete Merkmale in Kenntniss gesetzt
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Trainieren der Klassifikatoren in Python}
+  \begin{itemize}
+  \item Training der Klassifikatoren unter Verwendung der Bibliothek SciPy-Bibliothek~[\cite{scipy}]
+  \item Export der Modelle unter Verwendung der Sklearn-Porter Bibliothek~[\cite{sklearn_porter}]
+  \end{itemize}
+  \tiny
+\begin{table}
+  \centering
+  \begin{tabular}{c  *{10}c}
+    \toprule
+    {}&\multicolumn{2}{c}{DT}&\multicolumn{2}{c}{RF}&\multicolumn{2}{c}{KNN}&\multicolumn{2}{c}{NB}&\multicolumn{2}{c}{SVM}\\
+    A&R&P&R&P&R&P&R&P&R&P\\
+    \midrule
+    0&0.66&0.71&0.58&0.89&0.73&0.86&0.86&0.49&0.87&0.71\\
+    1&0.69&0.73&0.57&0.94&0.76&0.86&0.95&0.45&0.91&0.74\\
+    2&0.72&0.77&0.57&0.93&0.85&0.88&0.88&0.62&0.89&0.87\\
+    \midrule
+     &0.69&0.74&0.57&0.92&0.78&0.86&0.9&0.52&0.89&0.77\\
+    \bottomrule
+  \end{tabular}
+  \caption{Durchschnittliche Recall (R) und Precision (P) über alle Nutzer pro Account und Algorithmus. Durchschnittswerte über alle Accounts in der letzten Zeile.}\label{tab:2k_comp}
+\end{table}
+\normalsize
+\end{frame}
+\begin{frame}
+  \frametitle{Recall und Precision}
+  Recall:
+
+  \emph{In wie viel Prozent der Fälle wurde der Nutzer richtig erkannt?}
+
+  \begin{displaymath}
+    R = \frac{TP}{TP + FN}
+  \end{displaymath}  
+
+  \hbox{}
+  Precision:
+
+  \emph{In wie viel Prozent der Fälle in denen der Algorithmus gedacht hat es handle sich um den Nutzer war dies auch wirklich der Fall?}
+
+  \begin{displaymath}
+    P = \frac{TP}{TP + FP}    
+  \end{displaymath}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Trainieren der Klassifikatoren in Python}
+  \begin{itemize}
+  \item Training der Klassifikatoren unter Verwendung der Bibliothek SciPy-Bibliothek~[\cite{scipy}]
+  \item Export der Modelle unter Verwendung der Sklearn-Porter Bibliothek~[\cite{sklearn_porter}]
+  \end{itemize}
+  \tiny
+\begin{table}
+  \centering
+  \begin{tabular}{c  *{10}c}
+    \toprule
+    {}&\multicolumn{2}{c}{DT}&\multicolumn{2}{c}{RF}&\multicolumn{2}{c}{KNN}&\multicolumn{2}{c}{NB}&\multicolumn{2}{c}{SVM}\\
+    A&R&P&R&P&R&P&R&P&R&P\\
+    \midrule
+    0&0.66&0.71&0.58&0.89&0.73&0.86&0.86&0.49&0.87&0.71\\
+    1&0.69&0.73&0.57&0.94&0.76&0.86&0.95&0.45&0.91&0.74\\
+    2&0.72&0.77&0.57&0.93&0.85&0.88&0.88&0.62&0.89&0.87\\
+    \midrule
+     &0.69&0.74&0.57&0.92&0.78&0.86&0.9&0.52&0.89&0.77\\
+    \bottomrule
+  \end{tabular}
+  \caption{Durchschnittliche Recall (R) und Precision (P) über alle Nutzer pro Account und Algorithmus. Durchschnittswerte über alle Accounts in der letzten Zeile.}\label{tab:2k_comp}
+\end{table}
+\normalsize
+\end{frame}
+\section{Feldtest}
+
+\subsection{Durchführung}
+\begin{frame}
+  \frametitle{Durchführung}
+  \begin{itemize}
+  \item Implementierung der SVM für Account 0, Nutzer 1 auf dem Zedboard
+  \item 13 Testpersonen
+  \item 20 Versuche pro Person
+  \item Aufklärung der Testpersonen über Authentifikationsalgorithmus
+  \item Ermöglichen des Beobachtens der Eingabe nach den ersten 10 Versuchen
+  \end{itemize}
+\end{frame}
+\subsection{Ergebnisse}
+\begin{frame}
+  \frametitle{Ergebnisse}
+  \tiny
+  \begin{table}
+  \centering
+  \begin{tabular}{p{2cm}p{2cm}p{2cm}p{2cm}}
+    \toprule
+    Nutzer&Erfolgreiche Versuche (absolut)&Erfolgreiche Versuche (prozentual)&Erster Erfolgreicher Versuch\\
+    \midrule
+    1&19&0.95&1\\
+    2&2&0.10&16\\
+    3&0&0.00&-\\
+    10&1&0.05&12\\
+    14&1&0.05&14\\
+    17&4&0.20&12\\
+    18&0&0.00&-\\
+    19&0&0.00&-\\
+    20&0&0.00&-\\
+    21&1&0.05&14\\
+    22&5&0.25&5\\
+    23&2&0.10&19\\
+    24&1&0.05&13\\
+    \bottomrule
+  \end{tabular}
+  \caption{Ergebnisse der Validierung der SVM (trainiert auf Nutzer 1, Account 0) im Feldtest}\label{tab:feldtest}
+\end{table}
+\normalsize
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ergebnisse}
+  \begin{itemize}
+  \item Recall: 95\%
+  \item Precision: 53\% (Hochrechnung für gleiche Anzahl an Eingaben für Nutzer und Angreifer: 93\%)
+  \item Flase Rejection Rate (FRR): 5\%
+  \item False Acceptance Rate (FAR): 7\%
+  \end{itemize}
+\end{frame}
+\section{Fazit}
+
+\subsection{Bewertung des Verfahrens}
+\begin{frame}
+  \frametitle{Bewertung des Verfahrens}
+  \begin{itemize}
+  \item Im Zusammenspiel mit einer klassischen Pineingabe durchaus als Merkmal für eine Authentifizierung geeignet
+  \item Resistent gegenüber \glqq{}Shoulder Surfing\grqq{}
+  \item Leichter zu ersetzten als ein biometrisches Merkmal
+  \item Unterschiedliche Performance für verschiedene Nutzer
+    \begin{itemize}
+    \item Touchscreen nicht optimal
+    \item Unterschiedlich viel Erfahrung im Umgang mit Touchscreens
+    \item Unterschiedlich viele Testdaten
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+\subsection{Ausblick}
+\begin{frame}
+  \frametitle{Ausblick}
+  Es gibt noch viele Möglichkeiten die Performance des Verfahrens zu verbessern:
+  \begin{itemize}
+  \item Umfangreicherer Feldtest unter diverseren Testbedingungen    
+  \item Optimieren der Klassifikatoren
+  \item Verwenden verschiedener Klassifikatoren und Abstimmung über ein Mehrheitsvotum
+  \item Verwendung eines zuverlässigeren Eingabegerätes
+  \end{itemize}
+\end{frame}
+% \section{Vergleich verschiedener Touchscreen Technologien}
+% \begin{frame}
+%   \frametitle{Die verschiedenen Arten von Touchscreens}
+%   Es existieren eine Vielzahl von Touchscreen Technologien, von denen allerdings nur wenige eine praktische Relevanz haben.
+%   \begin{itemize}
+%   \item Resistive
+%   \item Kapazitive
+%   \item Optische
+%   \item Akustische Oberwellen - Surface Acoustic Wave (SAW)
+%   \item Dispersive Signale - Biegewellen
+%   \item Infrarot
+%   \end{itemize}
+%   \note{canvys}
+% \end{frame}
+% \subsection{Resistive Touchscreens}
+% \begin{frame}
+%   \frametitle{Aufbau von Resistiven Touchscreens}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/Overlay/diagram05-resistive-large.jpg}
+%   \caption{Lagen eines resistiven Touchoverlays~(Quelle: \cite{canvys})}\label{fig:resistiv_lagen}
+%   \begin{itemize}
+%   \item ITO $\ldots$ Indium Tin Oxide (deutsch Indiumzinnoxid)
+%   \end{itemize}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Funktionsweise von resistiven Touchscreens}
+%   Es gibt verschiedene Anschluss und Messarten für resistive Touchscreens. Die relevanten sind:
+%   \begin{itemize}
+%   \item 4-Wire Anschluss
+%   \item 5-Wire Anschluss
+%   \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Funktionsweise 4-Wire Anschluss}
+%   \begin{itemize}
+%   \item Linearer Spannungsverlauf auf vorderer oder hinterer Lage
+%   \item Abgriff der Messspannung von der jeweils anderen Lage
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.9\textwidth]{Bilder/Overlay/resistive_anschluss.png}
+%   \caption{4-Draht Anschluss eines resistiven Touchscreens (Quelle:~\cite{hantouchusa})}\label{fig:resistiv_4wire}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Funktionsweise 5-Wire Anschluss}
+%   \begin{itemize}
+%   \item Linearer Spannungsverlauf in X oder Y Richtung auf hinterer Lage
+%   \item Abgriff der Messspannung über vordere Lage
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/Overlay/resistive_5wire.png}
+%   \caption{5-Draht Anschluss eines resistiven Touchscreens (Quelle:~\cite{bhalla2010})}\label{fig:resistiv_5wire}
+% \end{figure}
+% \end{frame}
+
+
+% \begin{frame}
+%   \frametitle{Vor- und Nachteile der Anschlussarten}
+%   4-Wire
+%   \begin{itemize}
+%   \item Einfachste Anschlussart
+%   \item Linearer Spannungsverlauf auf vorderer ITO Lage notwendig. Diese kann schnell beschädigt werden.
+%   \end{itemize}
+%   5-Wire
+%   \begin{itemize}
+%   \item Linearer Spannungsverlauf nur auf hinterer ITO Lage notwendig. Beschädigung der vorderen Lage beeinträchtigt Messgenauigkeit nur minimal.
+%   \end{itemize}
+% \end{frame}
+
+% \subsection{Kapazitive Touchscreens}
+% \begin{frame}
+%   \frametitle{Oberflächenkapazitive Touchscreens}
+%   \begin{itemize}
+%   \item Reaktion auf Berührung
+%   \item Ermitteln der Position über die vier fließenden Eckströme
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/Overlay/diagram07-surface-large.jpg}
+%   \caption{Aufbau eines oberflächenkapazitiven Touchscreens (Quelle:~\cite{canvys})}\label{fig:oberflächenkap}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Projiziert kapazitive Touchscreens}
+%   \begin{figure}
+%     \centering
+%     \begin{subfigure}{.8\textwidth}
+%       \centering
+%       \includegraphics[width=0.5\textwidth]{Bilder/Overlay/eigen_multi.jpg}
+%       \caption{Aufbau eines eigenkapazitiven Touchscreens mit Multi-Pad (Quelle:~\cite{canvys})}\label{fig:eigen_multi}
+%     \end{subfigure}
+%     \begin{subfigure}{.8\textwidth}
+%       \centering
+%       \includegraphics[width=0.5\textwidth]{Bilder/Overlay/gegen.jpg}
+%       \caption{Aufbau eines gegenkapazitiven Touchscreens mit Zeilen und Spalten (Quelle:~\cite{canvys})}\label{fig:gegen}
+%     \end{subfigure}
+%   \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \begin{itemize}
+%   \item Ermitteln der Position durch Messen der Gegenkapazitäten
+%   \item Verbessern der Genauigkeit durch Interpolation
+%   \end{itemize}
+%   \frametitle{Projiziert kapazitive Touchscreens}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/Overlay/gegen_funktion.jpg}
+%   \caption{Funktionsweise eines projiziert gegenkapazitiven Touchscreens (Quelle:~\cite{canvys})}\label{fig:gegen_funktion}
+% \end{figure}
+% \end{frame}
+
+% \subsection{Zusammenfassung}
+
+% \begin{frame}
+%   \frametitle{Vor- und Nachteile von Resistiven Touchscreens}
+%   \begin{itemize}
+%   \item Sehr einfach anzuschließen und auszuwerten
+%   \item Sehr günstig für kleine Größen
+%   \item Bedienung mit verschiedenen Gegenständen
+%   \item Widerstandsfähig
+%   \item Mittelmäßige Lichtdurchlässigkeit
+%   \item Kein Multitouch (ohne Sensorarray)
+%   \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Vor- und Nachteile von Kapazitiven Touchscreens}
+%   \begin{itemize}
+%   \item Sehr hohe Genauigkeit und Linearität
+%   \item Keine Abnutzung des Sensors
+%   \item Sehr gute Lichtdurchlässigkeit
+%   \item Bedienung nur mit Finger
+%   \item Vergleichsweise teuer
+%   \item Aufwendig anzuschließen und auszuwerten
+%   \end{itemize}
+% \end{frame}
+
+% \section{Verwendete Bussysteme}
+
+% \subsection{Serial Peripheral Interface \-- SPI}
+% \begin{frame}
+%   \frametitle{Serial Peripheral Interface \-- SPI}
+%   \begin{itemize}
+%   \item Vorwiegend zum Anbinden externer Peripherie an MCs
+%   \item Vollduplexfähig
+%   \item Verbindung von einem Master mit einem oder mehreren Slaves
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{Bilder/Bus/spi_drei_slave}
+%   \caption{SPI Konfiguration mit mehreren Slaves (Quelle:~\cite{analogDialog})}\label{fig:spi_drei_slave}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Serial Peripheral Interface \-- SPI}
+%   \begin{itemize}
+%   \item Anwahl des Slaves über $\overline{CS}$
+%   \item Generierung der Clock durch den Master
+%   \item Lesen und Schreiben vom Bus bei steigender beziehungsweise fallender Flanke
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{Bilder/Bus/spi_komm}
+%   \caption{Beispiel einer Nachrichtenübertragung mit SPI (Quelle:~\cite{analogDialog})}\label{fig:spi_komm}
+% \end{figure}
+% \end{frame}
+% \subsection{Advanced eXtensible Interface \-- AXI}
+% \begin{frame}
+%   \frametitle{Advanced eXtensible Interface \-- AXI}
+%   \begin{itemize}
+%   \item Vorwiegend für Kommunikation innerhalb eines Chips
+%   \item Halbduplexfähig
+%   \item Verbindung von einem Master und einem Slave, Anschluss mehrerer Teilnehmer über AXI-Interconnect Blöcke möglich
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{Bilder/Bus/axi_intercon}
+%   \caption{Verbinden von mehreren AXI Mastern und Slaves über ein AXI-Interconnect (Quelle:~\cite{axi4Guide})}\label{fig:axi_intercon}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Advanced eXensible Interface \-- AXI}
+%   \begin{itemize}
+%   \item Kommunikation kann nur vom Master initialisiert werden
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.4\textwidth]{Bilder/Bus/axi_read}
+%   \caption{Auslesen von Slave-Daten über das AXI4-Interface (Quelle:~\cite{axi4Guide})}\label{fig:axi_read}
+% \end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.4\textwidth]{Bilder/Bus/axi_write}
+%   \caption{Schreiben von Daten in den Slave-Speicher über das AXI4-Interface (Quelle:~\cite{axi4Guide})}\label{fig:axi_write}
+% \end{figure}
+% \end{frame}
+% \section{Implementierung}
+% \subsection{Systemübersicht}
+% \begin{frame}
+%   \frametitle{Systemübersicht}
+%   \begin{itemize}
+%   \item Zedboard SoC
+%   \item 4-Wire resistives Touchscreen
+%   \item 7 Zoll HDMI Display
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/impl/System_Grob_Block.png}
+%   \caption{Grundsätzlicher Aufbau des Systems}\label{fig:system_grob_block}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Zedboard SoC}
+%   \begin{itemize}
+%   \item Programmable Logic für hardwarenahe Programmierung
+%   \item Processing System für Datenauswertung und Abläufe
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/impl/zynq_uebersicht}
+%   \caption{Übersicht der Zynq-7000 Architektur (Quelle:~\cite{xilinxzynq7000})}\label{fig:zynqarch}
+% \end{figure}
+% \end{frame}
+
+% \subsection{Touchscreen}
+% \begin{frame}
+%   \frametitle{Touchscreen \-- Übersicht}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.6\textwidth]{Bilder/impl/Touchsystem_Uebersicht}
+%   \caption{Grundsätzlicher Aufbau des Touchsystems}\label{fig:touch_uebersicht}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Touchscreen \-- Anschlussboard}
+%   \begin{itemize}
+%   \item Touchscreen-Controller \emph{TSC2046E} von Texas Instruments
+%   \item Ansteuern und digitalisieren der Touch-Daten
+%   \end{itemize}
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width=0.3\textwidth]{Bilder/platine_layout_verbessert.png}
+%     \caption{Platinenlayout für das Touchscreen-Anschlussboard.}\label{fig:layoutverbessert}
+%   \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Touchscreen Treiber \-- PL}
+%   \begin{itemize}
+%   \item Kommunikation mit dem Anschlussboard über SPI
+%   \item Zusammenfassen der Messdaten
+%   \item Erfassen von Zeiten
+%   \item Kommunikation mit der PS Seite über AXI
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.7\textwidth]{Bilder/impl/touch_ip}
+%   \caption{Blockdiagramm Touch-IP.\@ AXI Umsetzung vereinfacht dargestellt.}\label{fig:touch_ip}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Touchscreen Treiber \-- PS}
+%   \begin{itemize}
+%   \item Abspeichern und filtern der Messwerte
+%   \item Kalibrieren des Displays
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{Bilder/impl/kalibrieren.png}
+%   \caption{Ein Kreis auf einem Display und die dazu äquivalenten Messwerte eines Touchscreens (Quelle:~\cite{kalibrieren})}\label{fig:kalibrieren}
+% \end{figure}
+% \end{frame}
+
+% \subsection{Display}
+
+% \begin{frame}
+%   \frametitle{Display \-- Übersicht}
+%   \begin{itemize}
+%   \item Generierung von Timing- und Bilddaten in der PL
+%   \item Steuerung der Angezeigten Bilder über PS
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.6\textwidth]{Bilder/impl/Display_Uebersicht.png}
+%   \caption{Grundsätzlicher Aufbau des Display Systems}\label{fig:Display_Uebersicht}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Display \-- PL}
+%   \begin{itemize}
+%   \item Timingdaten: Anpassen eines Opensource HDMI-Treibers auf das Display
+%   \item Bilddaten: kombinatorische Berechnung
+%   \end{itemize}
+%   \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{Bilder/impl/HDMI_IP}
+%   \caption{Blockdiagramm HDMI-IP.\@ AXI Umsetzung vereinfacht dargestellt.}\label{fig:HDMI_ip}
+% \end{figure}
+% \end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Literatur- und Quellenverzeichnis}
+  \bibliographystyle{plainnat}
+  \bibliography{literature}
+  % \footnotesize{
+  % \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+  % \bibitem[Homeister, 2018]{p1} Matthias Homeister (2018)
+  %   \newblock Quantum Computing verstehen
+  %   \newblock \emph{Journal Name} 12(3), 45 -- 678.
+  % \end{thebibliography}
+  % }
+\end{frame}
+
+% ------------------------------------------------
+% ----------------------------------------------------------------------------------------
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
