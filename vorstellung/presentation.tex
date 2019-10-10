@@ -154,8 +154,36 @@
 \section{Umsetzung}
 % - Sensoren kurz vorstellen und Bezug auf Anforderungen nehmen
 \begin{frame}
-  \frametitle{Folie 1}
-  \emph{Diese Wetterstation wird sehr gut.}
+  \frametitle{Sensoren}
+  \subsection{Sensoren}
+        Messwerterfassung
+        \begin{itemize}
+            \item \emph{Bosch Sensortec} \href{https://www.bosch-sensortec.com/bst/products/all_products/bme280}{\textbf{BME280}}: Luftdruck-, Luftfeuchte- und Temperatursensor
+            \item \emph{Honeywell} \href{https://www.sparkfun.com/datasheets/Components/HMC6352.pdf}{\textbf{HMC6352}}: Magnetometer mit DSP-ASIC
+            \item \emph{ST Microelectronics} \href{https://www.st.com/en/mems-and-sensors/lis3dh.html}{\textbf{LIS3DH}}: MEMS-Accelerometer und Temperatursensor
+            \item \emph{Allegro} \href{https://www.allegromicro.com/en/products/sense/current-sensor-ics/zero-to-fifty-amp-integrated-conductor-sensor-ics/acs712}{\textbf{ACS712}}: Halleffekt-Stromsensor
+            \item \emph{Sparkfun} \href{https://www.sparkfun.com/products/8942}{\textbf{SEN-08942}}: Anemometer, Windfahne und Niederschlagssensor
+        \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Kommunikation und Leistungselektronik}
+    \subsection{Kommunikation, LE}
+        Kommunikations- und Leistungselektronik:
+        \begin{itemize}
+            \item \emph{SkyTraq} \href{}{\textbf{Venus600 series}}: GPS Empfänger-ASIC
+            \item \emph{``no-name''} \textbf{HC-05}: Serial-over-Bluetooth Schnittstellenumsetzer
+            \item \emph{ST Microelectronics} \href{https://www.st.com/en/motor-drivers/l293e.html}{\textbf{L293E}}: Motortreiber
+            \item \emph{IVT} \textbf{200007}: MPPT Laderegler
+        \end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Kommunikation und Leistungselektronik}
+    \subsection{Versorgung}
+        Autarke Energieversorgung:
+        \begin{itemize}
+            \item \emph{Sygonix} \textbf{SY-VRU214-4}: Solarmodul
+            \item\emph{``no-name''} Blei-Säure Sekundärzelle
+        \end{itemize}
 \end{frame}
 \section{Zeitplan}
 % - groben Zeitplan vorstellen (Diagramm)
